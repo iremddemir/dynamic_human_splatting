@@ -1,6 +1,6 @@
 # Towards Feed-Forward Dynamic Human Scene Reconstruction using Gaussian Splatting
 
-This repository contains the implementation of our 3DV 2025 course project:  
+This repository contains the implementation of the 3DV 2025 course @ETH project:  
 **Feed-forward Dynamic Scene Reconstruction with Humans Using Gaussian Splatting**  
 We present a novel pipeline that reconstructs dynamic human-centric scenes from monocular videos using a feed-forward architecture built upon the VGGT backbone and Gaussian Splatting.
 
@@ -76,7 +76,10 @@ The main components of the pipeline are as follows:
 - Configurations (e.g., dataset paths, training parameters) are defined within each script for easy customization.
 - Intermediate results (e.g., predicted Gaussians, canonical humans) are cached to avoid recomputation in later stages.
 
-## Gaussian Head Weights
+
+
+## Gaussian Head Weights
+
 The Gaussian head weights are stored in the [Google Drive](https://drive.google.com/drive/folders/18uhTByKype6SgFTEbK_ydFhpxrJk_gLn?usp=share_link).
 
 ## Acknowledgements
