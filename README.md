@@ -76,6 +76,8 @@ The main components of the pipeline are as follows:
 - Configurations (e.g., dataset paths, training parameters) are defined within each script for easy customization.
 - Intermediate results (e.g., predicted Gaussians, canonical humans) are cached to avoid recomputation in later stages.
 
+## Gaussian Head Weights
+The Gaussian head weights are stored in the [Google Drive](https://drive.google.com/drive/folders/18uhTByKype6SgFTEbK_ydFhpxrJk_gLn?usp=share_link).
 
 ## Acknowledgements
 
