@@ -1,0 +1,177 @@
+2025-04-28 16:08:24.519 | INFO     | __main__:get_logger:53 - Logging to output/human_scene/neuman/lab/hugs_trimlp/demo-dataset.seq=lab/2025-04-28_16-08-24
+2025-04-28 16:08:24.536 | INFO     | __main__:get_logger:54 - seed: 0
+mode: human_scene
+output_path: output
+cfg_file: cfg_files/release/neuman/hugs_human_scene.yaml
+exp_name: demo-dataset.seq=lab
+dataset_path: ''
+detect_anomaly: false
+debug: false
+wandb: false
+logdir: output/human_scene/neuman/lab/hugs_trimlp/demo-dataset.seq=lab/2025-04-28_16-08-24
+logdir_ckpt: output/human_scene/neuman/lab/hugs_trimlp/demo-dataset.seq=lab/2025-04-28_16-08-24/ckpt
+eval: false
+bg_color: white
+dataset:
+  name: neuman
+  seq: lab
+train:
+  batch_size: 1
+  num_workers: 0
+  num_steps: 14998
+  save_ckpt_interval: 15000
+  val_interval: 1000
+  anim_interval: 15000
+  optim_scene: true
+  save_progress_images: false
+  progress_save_interval: 10
+human:
+  name: hugs_trimlp
+  ckpt: null
+  sh_degree: 0
+  n_subdivision: 2
+  only_rgb: false
+  use_surface: false
+  use_deformer: true
+  init_2d: false
+  disable_posedirs: true
+  res_offset: false
+  rotate_sh: false
+  isotropic: false
+  init_scale_multiplier: 0.5
+  run_init: false
+  estimate_delta: true
+  triplane_res: 256
+  optim_pose: true
+  optim_betas: false
+  optim_trans: true
+  optim_eps_offsets: false
+  activation: relu
+  canon_nframes: 60
+  canon_pose_type: da_pose
+  knn_n_hops: 3
+  lr:
+    wd: 0.0
+    position: 0.00016
+    position_init: 0.00016
+    position_final: 1.6e-06
+    position_delay_mult: 0.01
+    position_max_steps: 30000
+    opacity: 0.05
+    scaling: 0.005
+    rotation: 0.001
+    feature: 0.0025
+    smpl_spatial: 2.0
+    smpl_pose: 0.0001
+    smpl_betas: 0.0001
+    smpl_trans: 0.0001
+    smpl_eps_offset: 0.0001
+    lbs_weights: 0.0
+    posedirs: 0.0
+    percent_dense: 0.01
+    appearance: 0.001
+    geometry: 0.001
+    vembed: 0.001
+    deformation: 0.0001
+    scale_lr_w_npoints: false
+  loss:
+    ssim_w: 0.2
+    l1_w: 0.8
+    lpips_w: 1.0
+    lbs_w: 1000.0
+    humansep_w: 1.0
+    num_patches: 4
+    patch_size: 128
+    use_patches: 1
+  densification_interval: 600
+  opacity_reset_interval: 3000
+  densify_from_iter: 3000
+  densify_until_iter: 15000
+  densify_grad_threshold: 0.0002
+  prune_min_opacity: 0.005
+  densify_extent: 1.0
+  max_n_gaussians: 524288
+  percent_dense: 0.01
+scene:
+  name: scene_gs
+  ckpt: null
+  sh_degree: 3
+  add_bg_points: false
+  num_bg_points: 204800
+  bg_sphere_dist: 5.0
+  clean_pcd: false
+  opt_start_iter: -1
+  lr:
+    percent_dense: 0.01
+    spatial_scale: 1.0
+    position_init: 0.00016
+    position_final: 1.6e-06
+    position_delay_mult: 0.01
+    position_max_steps: 30000
+    opacity: 0.05
+    scaling: 0.005
+    rotation: 0.001
+    feature: 0.0025
+  percent_dense: 0.01
+  densification_interval: 100
+  opacity_reset_interval: 20000
+  densify_from_iter: 500
+  densify_until_iter: 15000
+  densify_grad_threshold: 0.0002
+  prune_min_opacity: 0.005
+  max_n_gaussians: 2097152
+  loss:
+    ssim_w: 0.2
+    l1_w: 0.8
+
+2025-04-28 16:08:24.552 | INFO     | hugs.trainer.gs_trainer:get_train_dataset:39 - Loading NeuMan dataset lab-train
+2025-04-28 16:08:28.622 | INFO     | hugs.trainer.gs_trainer:get_val_dataset:54 - Loading NeuMan dataset lab-val
+2025-04-28 16:08:29.356 | INFO     | hugs.trainer.gs_trainer:get_anim_dataset:62 - Loading NeuMan dataset lab-anim
+2025-04-28 16:08:30.742 | INFO     | hugs.models.hugs_trimlp:create_betas:141 - Created betas with shape: torch.Size([10]), requires_grad: False
+2025-04-28 16:08:30.778 | INFO     | hugs.models.hugs_trimlp:__init__:111 - Subdividing SMPL model 2 times
+2025-04-28 16:08:40.105 | INFO     | hugs.models.hugs_trimlp:create_betas:141 - Created betas with shape: torch.Size([10]), requires_grad: False
+2025-04-28 16:09:22.005 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: xyz, lr: 0.00032
+2025-04-28 16:09:22.005 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: v_embed, lr: 0.001
+2025-04-28 16:09:22.006 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: geometry_dec, lr: 0.001
+2025-04-28 16:09:22.006 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: appearance_dec, lr: 0.001
+2025-04-28 16:09:22.006 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: deform_dec, lr: 0.0005
+2025-04-28 16:10:01.415 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: xyz, lr: 0.00032
+2025-04-28 16:10:01.415 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: v_embed, lr: 0.001
+2025-04-28 16:10:01.415 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: geometry_dec, lr: 0.001
+2025-04-28 16:10:01.416 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: appearance_dec, lr: 0.001
+2025-04-28 16:10:01.416 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: deform_dec, lr: 0.0001
+2025-04-28 16:10:01.417 | INFO     | hugs.trainer.gs_trainer:__init__:128 - HUGS TRIMLP: 
+xyz: torch.Size([110210, 3]) 
+max_radii2D: torch.Size([110210]) 
+xyz_gradient_accum: torch.Size([110210, 1]) 
+denom: torch.Size([110210, 1]) 
+
+2025-04-28 16:10:01.420 | INFO     | hugs.models.hugs_trimlp:create_betas:141 - Created betas with shape: torch.Size([10]), requires_grad: False
+2025-04-28 16:10:01.426 | INFO     | hugs.models.hugs_trimlp:create_body_pose:132 - Created body pose with shape: torch.Size([82, 138]), requires_grad: True
+2025-04-28 16:10:01.428 | INFO     | hugs.models.hugs_trimlp:create_global_orient:137 - Created global_orient with shape: torch.Size([82, 6]), requires_grad: True
+2025-04-28 16:10:01.429 | INFO     | hugs.models.hugs_trimlp:create_transl:145 - Created transl with shape: torch.Size([82, 3]), requires_grad: True
+2025-04-28 16:10:01.430 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: xyz, lr: 0.00032
+2025-04-28 16:10:01.430 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: v_embed, lr: 0.001
+2025-04-28 16:10:01.430 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: geometry_dec, lr: 0.001
+2025-04-28 16:10:01.431 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: appearance_dec, lr: 0.001
+2025-04-28 16:10:01.431 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: deform_dec, lr: 0.0001
+2025-04-28 16:10:01.431 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: global_orient, lr: 0.0001
+2025-04-28 16:10:01.431 | INFO     | hugs.models.hugs_trimlp:setup_optimizer:715 - Parameter: body_pose, lr: 0.0001
+2025-04-28 16:10:01.432 | INFO     | hugs.trainer.gs_trainer:__init__:157 - SceneGS: 
+xyz: torch.Size([0]) 
+features_dc: torch.Size([0]) 
+features_rest: torch.Size([0]) 
+scaling: torch.Size([0]) 
+rotation: torch.Size([0]) 
+opacity: torch.Size([0]) 
+max_radii2D: torch.Size([0]) 
+xyz_gradient_accum: torch.Size([0]) 
+denom: torch.Size([0]) 
+
+2025-04-28 16:10:01.435 | INFO     | hugs.models.scene:create_from_pcd:179 - Number of scene points at initialisation: 9013
+2025-04-28 16:10:01.458 | INFO     | hugs.models.scene:setup_optimizer:211 - Parameter: xyz, lr: 0.001990651550292969
+2025-04-28 16:10:01.459 | INFO     | hugs.models.scene:setup_optimizer:211 - Parameter: f_dc, lr: 0.0025
+2025-04-28 16:10:01.459 | INFO     | hugs.models.scene:setup_optimizer:211 - Parameter: f_rest, lr: 0.000125
+2025-04-28 16:10:01.459 | INFO     | hugs.models.scene:setup_optimizer:211 - Parameter: opacity, lr: 0.05
+2025-04-28 16:10:01.460 | INFO     | hugs.models.scene:setup_optimizer:211 - Parameter: scaling, lr: 0.005
+2025-04-28 16:10:01.460 | INFO     | hugs.models.scene:setup_optimizer:211 - Parameter: rotation, lr: 0.001

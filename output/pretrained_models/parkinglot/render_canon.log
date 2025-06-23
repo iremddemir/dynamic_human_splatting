@@ -1,0 +1,413 @@
+2024-03-06 02:16:44.283 | INFO     | __main__:get_logger:25 - Logging to /root/hugs/output/pretrained_models/parkinglot
+2024-03-06 02:16:44.294 | INFO     | __main__:get_logger:26 - seed: 0
+mode: human_scene
+output_path: output
+cfg_file: cfg_files/exp/neuman/hugs_triplane_scene_opareset.yaml
+exp_name: 20231117_0929_hugs_tri_scene_opareset-dataset.seq=parkinglot-human.n_subdivision=2-human.use_deformer=True-human.loss.humansep_w=1.0-scene.opacity_reset_interval=20000
+dataset_path: ''
+detect_anomaly: false
+debug: false
+wandb: false
+logdir: /root/hugs/output/pretrained_models/parkinglot
+logdir_ckpt: /root/hugs/output/pretrained_models/parkinglot
+eval: true
+bg_color: white
+densify_bugfree: false
+dataset:
+  name: neuman
+  seq: parkinglot
+train:
+  batch_size: 1
+  num_workers: 0
+  num_steps: 14998
+  save_ckpt_interval: 15000
+  val_interval: 1000
+  anim_interval: 1000
+  optim_scene: true
+  save_progress_images: false
+  progress_save_interval: 10
+human:
+  name: hugs_triplane
+  ckpt: null
+  sh_degree: 0
+  n_subdivision: 2
+  only_rgb: false
+  fixed_opacity: false
+  use_surface: false
+  use_deformer: true
+  init_2d: false
+  disable_posedirs: true
+  res_offset: false
+  rotate_sh: false
+  isotropic: false
+  init_scale_multiplier: 0.5
+  run_init: false
+  estimate_delta: true
+  triplane_res: 256
+  optim_pose: true
+  optim_betas: false
+  optim_trans: true
+  optim_eps_offsets: false
+  use_ngp: false
+  activation: relu
+  canon_nframes: 60
+  canon_pose_type: da_pose
+  knn_n_hops: 3
+  lr:
+    wd: 0.0
+    position: 0.00016
+    position_init: 0.00016
+    position_final: 1.6e-06
+    position_delay_mult: 0.01
+    position_max_steps: 30000
+    opacity: 0.05
+    scaling: 0.005
+    rotation: 0.001
+    feature: 0.0025
+    smpl_spatial: 2.0
+    smpl_pose: 0.0001
+    smpl_betas: 0.0001
+    smpl_trans: 0.0001
+    smpl_eps_offset: 0.0001
+    lbs_weights: 0.0
+    posedirs: 0.0
+    percent_dense: 0.01
+    appearance: 0.001
+    geometry: 0.001
+    vembed: 0.001
+    deformation: 0.0001
+    scale_lr_w_npoints: false
+  loss:
+    ssim_w: 0.2
+    l1_w: 0.8
+    lpips_w: 1.0
+    reg_opacity_w: 0.0
+    dist_w: 0.0
+    offset_w: 0.0
+    lbs_w: 1000.0
+    posedirs_w: 0.0
+    alpha_w: 0.0
+    depth_w: 0.0
+    color_w: 0.0
+    sym_w: 0.0
+    lapsmooth_w: 0.0
+    covar_w: 0.0
+    normal_w: 0.0
+    kl_w: 0.0
+    repulsion_w: 0.0
+    projection_w: 0.0
+    ppdist_w: 0.0
+    ppnorm_w: 0.0
+    edge_w: 0.0
+    isoscale_w: 0.0
+    volume_w: 0.0
+    tv_reg_w: 0.0
+    tv_reg_interval: -1
+    humansep_w: 1.0
+    num_patches: 4
+    patch_size: 128
+    use_patches: 1
+  densification_interval: 600
+  opacity_reset_interval: 3000
+  densify_from_iter: 3000
+  densify_until_iter: 15000
+  densify_grad_threshold: 0.0002
+  prune_min_opacity: 0.005
+  densify_extent: 1.0
+  max_n_gaussians: 524288
+  percent_dense: 0.01
+scene:
+  name: scene_gs
+  ckpt: null
+  sh_degree: 3
+  add_bg_points: false
+  num_bg_points: 204800
+  bg_sphere_dist: 5.0
+  clean_pcd: false
+  opt_start_iter: -1
+  lr:
+    percent_dense: 0.01
+    spatial_scale: 1.0
+    position_init: 0.00016
+    position_final: 1.6e-06
+    position_delay_mult: 0.01
+    position_max_steps: 30000
+    opacity: 0.05
+    scaling: 0.005
+    rotation: 0.001
+    feature: 0.0025
+  percent_dense: 0.01
+  densification_interval: 100
+  opacity_reset_interval: 20000
+  densify_from_iter: 500
+  densify_until_iter: 15000
+  densify_grad_threshold: 0.0002
+  prune_min_opacity: 0.005
+  max_n_gaussians: 2097152
+  loss:
+    ssim_w: 0.2
+    l1_w: 0.8
+
+2024-03-06 02:16:44.295 | INFO     | __main__:main:42 - Found human ckpt: /root/hugs/output/pretrained_models/parkinglot/human_final.pth
+2024-03-06 02:16:44.296 | INFO     | __main__:main:55 - Found scene ckpt: /root/hugs/output/pretrained_models/parkinglot/scene_final.pth
+2024-03-06 02:16:44.296 | INFO     | hugs.trainer.gs_trainer:get_val_dataset:61 - Loading NeuMan dataset parkinglot-val
+2024-03-06 02:16:46.976 | INFO     | hugs.trainer.gs_trainer:get_anim_dataset:74 - Loading NeuMan dataset parkinglot-anim
+2024-03-06 02:16:50.865 | INFO     | hugs.models.hugs_triplane:create_betas:146 - Created betas with shape: torch.Size([10]), requires_grad: False
+2024-03-06 02:16:50.951 | INFO     | hugs.models.hugs_triplane:__init__:116 - Subdividing SMPL model 2 times
+2024-03-06 02:17:01.161 | INFO     | hugs.models.hugs_triplane:create_betas:146 - Created betas with shape: torch.Size([10]), requires_grad: False
+2024-03-06 02:17:01.162 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: xyz, lr: 0.00032
+2024-03-06 02:17:01.163 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: v_embed, lr: 0.001
+2024-03-06 02:17:01.163 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: geometry_dec, lr: 0.001
+2024-03-06 02:17:01.163 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: appearance_dec, lr: 0.001
+2024-03-06 02:17:01.163 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: deform_dec, lr: 0.0001
+2024-03-06 02:17:01.164 | INFO     | hugs.trainer.gs_trainer:__init__:141 - HUGS triplane: 
+xyz: torch.Size([0]) 
+max_radii2D: torch.Size([0]) 
+xyz_gradient_accum: torch.Size([0, 1]) 
+denom: torch.Size([0, 1]) 
+
+2024-03-06 02:17:01.251 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: xyz, lr: 0.00032
+2024-03-06 02:17:01.251 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: v_embed, lr: 0.001
+2024-03-06 02:17:01.251 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: geometry_dec, lr: 0.001
+2024-03-06 02:17:01.251 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: appearance_dec, lr: 0.001
+2024-03-06 02:17:01.252 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: deform_dec, lr: 0.0001
+2024-03-06 02:17:01.259 | WARNING  | hugs.models.hugs_triplane:load_state_dict:213 - Optimizer load failed: loaded state dict has a different number of parameter groups
+2024-03-06 02:17:01.259 | WARNING  | hugs.models.hugs_triplane:load_state_dict:214 - Continue without a pretrained optimizer
+2024-03-06 02:17:01.260 | INFO     | hugs.trainer.gs_trainer:__init__:145 - Loaded human model from /root/hugs/output/pretrained_models/parkinglot/human_final.pth
+2024-03-06 02:17:01.260 | INFO     | hugs.trainer.gs_trainer:__init__:171 - SceneGS: 
+xyz: torch.Size([0]) 
+features_dc: torch.Size([0]) 
+features_rest: torch.Size([0]) 
+scaling: torch.Size([0]) 
+rotation: torch.Size([0]) 
+opacity: torch.Size([0]) 
+max_radii2D: torch.Size([0]) 
+xyz_gradient_accum: torch.Size([0]) 
+denom: torch.Size([0]) 
+
+2024-03-06 02:17:03.102 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: xyz, lr: 0.001204413642883301
+2024-03-06 02:17:03.102 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: f_dc, lr: 0.0025
+2024-03-06 02:17:03.102 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: f_rest, lr: 0.000125
+2024-03-06 02:17:03.103 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: opacity, lr: 0.05
+2024-03-06 02:17:03.103 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: scaling, lr: 0.005
+2024-03-06 02:17:03.103 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: rotation, lr: 0.001
+2024-03-06 02:17:03.110 | INFO     | hugs.trainer.gs_trainer:__init__:175 - Loaded scene model from /root/hugs/output/pretrained_models/parkinglot/scene_final.pth
+2024-03-06 02:17:03.110 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: xyz, lr: 0.001204413642883301
+2024-03-06 02:17:03.111 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: f_dc, lr: 0.0025
+2024-03-06 02:17:03.111 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: f_rest, lr: 0.000125
+2024-03-06 02:17:03.111 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: opacity, lr: 0.05
+2024-03-06 02:17:03.111 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: scaling, lr: 0.005
+2024-03-06 02:17:03.111 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: rotation, lr: 0.001
+2024-03-06 02:17:11.451 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_LPIPS: 0.2244
+2024-03-06 02:17:11.451 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_PSNR: 26.8618
+2024-03-06 02:17:11.452 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_SSIM: 0.8499
+2024-03-06 02:17:11.452 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_HUMAN_LPIPS: 0.1749
+2024-03-06 02:17:11.453 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_HUMAN_PSNR: 19.4374
+2024-03-06 02:17:11.453 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_HUMAN_SSIM: 0.7300
+2024-03-06 02:17:48.944 | INFO     | __main__:get_logger:25 - Logging to /root/hugs/output/pretrained_models/parkinglot
+2024-03-06 02:17:48.964 | INFO     | __main__:get_logger:26 - seed: 0
+mode: human_scene
+output_path: output
+cfg_file: cfg_files/exp/neuman/hugs_triplane_scene_opareset.yaml
+exp_name: 20231117_0929_hugs_tri_scene_opareset-dataset.seq=parkinglot-human.n_subdivision=2-human.use_deformer=True-human.loss.humansep_w=1.0-scene.opacity_reset_interval=20000
+dataset_path: ''
+detect_anomaly: false
+debug: false
+wandb: false
+logdir: /root/hugs/output/pretrained_models/parkinglot
+logdir_ckpt: /root/hugs/output/pretrained_models/parkinglot
+eval: true
+bg_color: white
+densify_bugfree: false
+dataset:
+  name: neuman
+  seq: parkinglot
+train:
+  batch_size: 1
+  num_workers: 0
+  num_steps: 14998
+  save_ckpt_interval: 15000
+  val_interval: 1000
+  anim_interval: 1000
+  optim_scene: true
+  save_progress_images: false
+  progress_save_interval: 10
+human:
+  name: hugs_triplane
+  ckpt: null
+  sh_degree: 0
+  n_subdivision: 2
+  only_rgb: false
+  fixed_opacity: false
+  use_surface: false
+  use_deformer: true
+  init_2d: false
+  disable_posedirs: true
+  res_offset: false
+  rotate_sh: false
+  isotropic: false
+  init_scale_multiplier: 0.5
+  run_init: false
+  estimate_delta: true
+  triplane_res: 256
+  optim_pose: true
+  optim_betas: false
+  optim_trans: true
+  optim_eps_offsets: false
+  use_ngp: false
+  activation: relu
+  canon_nframes: 60
+  canon_pose_type: da_pose
+  knn_n_hops: 3
+  lr:
+    wd: 0.0
+    position: 0.00016
+    position_init: 0.00016
+    position_final: 1.6e-06
+    position_delay_mult: 0.01
+    position_max_steps: 30000
+    opacity: 0.05
+    scaling: 0.005
+    rotation: 0.001
+    feature: 0.0025
+    smpl_spatial: 2.0
+    smpl_pose: 0.0001
+    smpl_betas: 0.0001
+    smpl_trans: 0.0001
+    smpl_eps_offset: 0.0001
+    lbs_weights: 0.0
+    posedirs: 0.0
+    percent_dense: 0.01
+    appearance: 0.001
+    geometry: 0.001
+    vembed: 0.001
+    deformation: 0.0001
+    scale_lr_w_npoints: false
+  loss:
+    ssim_w: 0.2
+    l1_w: 0.8
+    lpips_w: 1.0
+    reg_opacity_w: 0.0
+    dist_w: 0.0
+    offset_w: 0.0
+    lbs_w: 1000.0
+    posedirs_w: 0.0
+    alpha_w: 0.0
+    depth_w: 0.0
+    color_w: 0.0
+    sym_w: 0.0
+    lapsmooth_w: 0.0
+    covar_w: 0.0
+    normal_w: 0.0
+    kl_w: 0.0
+    repulsion_w: 0.0
+    projection_w: 0.0
+    ppdist_w: 0.0
+    ppnorm_w: 0.0
+    edge_w: 0.0
+    isoscale_w: 0.0
+    volume_w: 0.0
+    tv_reg_w: 0.0
+    tv_reg_interval: -1
+    humansep_w: 1.0
+    num_patches: 4
+    patch_size: 128
+    use_patches: 1
+  densification_interval: 600
+  opacity_reset_interval: 3000
+  densify_from_iter: 3000
+  densify_until_iter: 15000
+  densify_grad_threshold: 0.0002
+  prune_min_opacity: 0.005
+  densify_extent: 1.0
+  max_n_gaussians: 524288
+  percent_dense: 0.01
+scene:
+  name: scene_gs
+  ckpt: null
+  sh_degree: 3
+  add_bg_points: false
+  num_bg_points: 204800
+  bg_sphere_dist: 5.0
+  clean_pcd: false
+  opt_start_iter: -1
+  lr:
+    percent_dense: 0.01
+    spatial_scale: 1.0
+    position_init: 0.00016
+    position_final: 1.6e-06
+    position_delay_mult: 0.01
+    position_max_steps: 30000
+    opacity: 0.05
+    scaling: 0.005
+    rotation: 0.001
+    feature: 0.0025
+  percent_dense: 0.01
+  densification_interval: 100
+  opacity_reset_interval: 20000
+  densify_from_iter: 500
+  densify_until_iter: 15000
+  densify_grad_threshold: 0.0002
+  prune_min_opacity: 0.005
+  max_n_gaussians: 2097152
+  loss:
+    ssim_w: 0.2
+    l1_w: 0.8
+
+2024-03-06 02:17:48.965 | INFO     | __main__:main:42 - Found human ckpt: /root/hugs/output/pretrained_models/parkinglot/human_final.pth
+2024-03-06 02:17:48.966 | INFO     | __main__:main:55 - Found scene ckpt: /root/hugs/output/pretrained_models/parkinglot/scene_final.pth
+2024-03-06 02:17:48.967 | INFO     | hugs.trainer.gs_trainer:get_val_dataset:61 - Loading NeuMan dataset parkinglot-val
+2024-03-06 02:17:51.692 | INFO     | hugs.trainer.gs_trainer:get_anim_dataset:74 - Loading NeuMan dataset parkinglot-anim
+2024-03-06 02:17:55.507 | INFO     | hugs.models.hugs_triplane:create_betas:146 - Created betas with shape: torch.Size([10]), requires_grad: False
+2024-03-06 02:17:55.593 | INFO     | hugs.models.hugs_triplane:__init__:116 - Subdividing SMPL model 2 times
+2024-03-06 02:18:05.860 | INFO     | hugs.models.hugs_triplane:create_betas:146 - Created betas with shape: torch.Size([10]), requires_grad: False
+2024-03-06 02:18:05.861 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: xyz, lr: 0.00032
+2024-03-06 02:18:05.861 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: v_embed, lr: 0.001
+2024-03-06 02:18:05.861 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: geometry_dec, lr: 0.001
+2024-03-06 02:18:05.861 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: appearance_dec, lr: 0.001
+2024-03-06 02:18:05.861 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: deform_dec, lr: 0.0001
+2024-03-06 02:18:05.862 | INFO     | hugs.trainer.gs_trainer:__init__:141 - HUGS triplane: 
+xyz: torch.Size([0]) 
+max_radii2D: torch.Size([0]) 
+xyz_gradient_accum: torch.Size([0, 1]) 
+denom: torch.Size([0, 1]) 
+
+2024-03-06 02:18:05.980 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: xyz, lr: 0.00032
+2024-03-06 02:18:05.981 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: v_embed, lr: 0.001
+2024-03-06 02:18:05.981 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: geometry_dec, lr: 0.001
+2024-03-06 02:18:05.981 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: appearance_dec, lr: 0.001
+2024-03-06 02:18:05.981 | INFO     | hugs.models.hugs_triplane:setup_optimizer:748 - Parameter: deform_dec, lr: 0.0001
+2024-03-06 02:18:05.989 | WARNING  | hugs.models.hugs_triplane:load_state_dict:213 - Optimizer load failed: loaded state dict has a different number of parameter groups
+2024-03-06 02:18:05.989 | WARNING  | hugs.models.hugs_triplane:load_state_dict:214 - Continue without a pretrained optimizer
+2024-03-06 02:18:05.989 | INFO     | hugs.trainer.gs_trainer:__init__:145 - Loaded human model from /root/hugs/output/pretrained_models/parkinglot/human_final.pth
+2024-03-06 02:18:05.990 | INFO     | hugs.trainer.gs_trainer:__init__:171 - SceneGS: 
+xyz: torch.Size([0]) 
+features_dc: torch.Size([0]) 
+features_rest: torch.Size([0]) 
+scaling: torch.Size([0]) 
+rotation: torch.Size([0]) 
+opacity: torch.Size([0]) 
+max_radii2D: torch.Size([0]) 
+xyz_gradient_accum: torch.Size([0]) 
+denom: torch.Size([0]) 
+
+2024-03-06 02:18:07.421 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: xyz, lr: 0.001204413642883301
+2024-03-06 02:18:07.422 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: f_dc, lr: 0.0025
+2024-03-06 02:18:07.422 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: f_rest, lr: 0.000125
+2024-03-06 02:18:07.422 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: opacity, lr: 0.05
+2024-03-06 02:18:07.423 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: scaling, lr: 0.005
+2024-03-06 02:18:07.423 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: rotation, lr: 0.001
+2024-03-06 02:18:07.430 | INFO     | hugs.trainer.gs_trainer:__init__:175 - Loaded scene model from /root/hugs/output/pretrained_models/parkinglot/scene_final.pth
+2024-03-06 02:18:07.431 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: xyz, lr: 0.001204413642883301
+2024-03-06 02:18:07.431 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: f_dc, lr: 0.0025
+2024-03-06 02:18:07.431 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: f_rest, lr: 0.000125
+2024-03-06 02:18:07.431 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: opacity, lr: 0.05
+2024-03-06 02:18:07.432 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: scaling, lr: 0.005
+2024-03-06 02:18:07.432 | INFO     | hugs.models.scene:setup_optimizer:209 - Parameter: rotation, lr: 0.001
+2024-03-06 02:18:15.257 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_LPIPS: 0.2244
+2024-03-06 02:18:15.258 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_PSNR: 26.8618
+2024-03-06 02:18:15.259 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_SSIM: 0.8499
+2024-03-06 02:18:15.259 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_HUMAN_LPIPS: 0.1749
+2024-03-06 02:18:15.259 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_HUMAN_PSNR: 19.4374
+2024-03-06 02:18:15.260 | INFO     | hugs.trainer.gs_trainer:validate:608 - final - HUGS_HUMAN_SSIM: 0.7300
+2024-03-06 02:21:31.151 | INFO     | hugs.utils.general:create_video:92 - Video is saved under /root/hugs/output/pretrained_models/parkinglot/anim_neuman_parkinglot_final.mp4

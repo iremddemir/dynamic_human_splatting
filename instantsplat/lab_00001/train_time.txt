@@ -1,0 +1,6 @@
+[1] coarse_init_TrainTime: 0 min 1 sec
+[1] init_geo: 0 min 1 sec
+[2] train_joint_TrainTime: 0 min 0 sec
+[2] train_joint: 0 min 1 sec
+[1] coarse_init_TrainTime: 0 min 0 sec
+[1] init_geo: 0 min 0 sec

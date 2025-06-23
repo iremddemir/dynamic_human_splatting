@@ -1,0 +1,18 @@
+Optimizing instantsplat/lab_00001
+Output folder: instantsplat/lab_00001 [11/05 22:14:54]
+Reading camera 1/1 [11/05 22:14:54]
+Loading Training Cameras [11/05 22:14:54]
+train_camera_num:  1 [11/05 22:14:54]
+Loading Test Cameras [11/05 22:14:54]
+test_camera_num:  0 [11/05 22:14:54]
+Number of points at initialisation :  152292 [11/05 22:14:54]
+Training progress:   0%|          | 0/1 [00:00<?, ?it/s]Training progress:   0%|          | 0/1 [00:00<?, ?it/s]
+fdldsfs [11/05 22:14:55]
+uuid 0 i 0 [11/05 22:14:55]
+pipe <instantsplat.arguments.GroupParams object at 0x7f62ae3e03d0> [11/05 22:14:55]
+bg tensor([0., 0., 0.], device='cuda:0') [11/05 22:14:55]
+shape of depth torch.Size([717, 1276]) [11/05 22:14:55]
+
+[ITER 1] Saving Gaussians [11/05 22:14:55]
+
+Training complete. [11/05 22:14:56]

@@ -1,0 +1,1 @@
+Namespace(sh_degree=3, source_path='/local/home/idemir/Desktop/3dv_dynamichumansplatting/data/neuman/lab_00002', model_path='instantsplat/lab_00002', images='images', resolution=1, white_background=False, data_device='cuda', eval=False, n_views=1, init_scale_from_view_depth=False)

@@ -1,0 +1,1 @@
+Namespace(sh_degree=3, source_path='/home/emircan/projects/ml-hugs', model_path='./output/irem', images='images', resolution=-1, white_background=False, data_device='cuda', eval=False, n_views=0)
