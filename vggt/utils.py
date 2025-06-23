@@ -46,6 +46,177 @@ posedirs = None
 disable_posedirs = True
 
 
+# Rendering utils
+
+def set_gaussian_model_features(model: GaussianModel, features: dict):
+    """
+    Sets feature tensors on a GaussianModel instance without wrapping in nn.Parameter,
+    preserving gradient history.
+
+    Args:
+        model (GaussianModel): The target GaussianModel.
+        features (dict): Dictionary with keys and shapes:
+            - 'xyz': (P, 3)
+            - 'features_dc': (P, 3, 1)
+            - 'features_rest': (P, 3, (sh_degree+1)^2 - 1)
+            - 'opacity': (P, 1)
+            - 'scaling': (P, 3)
+            - 'rotation': (P, 4)
+    """
+    model._xyz = features["xyz"]
+    model._features_dc = features["features_dc"]
+    model._features_rest = features["features_rest"]
+    model._opacity = features["opacity"]
+    model._scaling = features["scaling"]
+    model._rotation = features["rotation"]
+
+    model.max_radii2D = torch.zeros((features["xyz"].shape[0]), device=features["xyz"].device)
+
+def render_gaussians(gaussians, camera_list, bg='white'):
+    viewpoint_cam = camera_list[0]
+
+    parser = ArgumentParser(description="Training script parameters")
+    pipe = PipelineParams(parser)
+    args = parser.parse_args(sys.argv[1:])
+    pipe = pipe.extract(args)
+
+    pose = gaussians.get_RT(viewpoint_cam.uid) 
+
+    if bg == 'black':
+        bg = torch.tensor([0, 0, 0], dtype=torch.float32, device=device)
+    elif bg == 'white':
+        bg = torch.tensor([1, 1, 1], dtype=torch.float32, device=device)
+    elif bg == 'green':
+        bg = torch.tensor([0, 1, 0], dtype=torch.float32, device=device)
+
+    render_pkg = render(viewpoint_cam, gaussians, pipe, bg, camera_pose=pose)
+    
+    return render_pkg
+
+
+def render_and_save(gaussians, camera_list, features: dict, save_path: str, bg: str = 'white'):
+    with torch.no_grad():
+        set_gaussian_model_features(gaussians, features)
+        render_pkg = render_gaussians(gaussians, camera_list, bg=bg)
+        img = (render_pkg['render']
+               .detach()
+               .cpu()
+               .contiguous()
+               .clamp(0,1))
+        torchvision.utils.save_image(img, save_path)
+    return render_pkg['render']
+
+def overlay_points_and_save(rgb_image, pts, save_path):
+    rgb = rgb_image.squeeze(0).clone()
+
+    if pts.numel() > 0:
+        height, width = rgb.shape[-2], rgb.shape[-1]
+
+        xs = pts[:, 0].long()
+        ys = pts[:, 1].long()
+
+
+        #rgb[:, ys, xs] = 0.5
+
+        rgb[0, ys, xs] = 1.0  # Red channel
+        rgb[1, ys, xs] = 0.0  # Green channel
+        rgb[2, ys, xs] = 0.0  # Blue channel
+
+    torchvision.utils.save_image(rgb, save_path)
+
+def render_smpl_gaussians(features, save_path, bg):
+    R = np.array([
+        [1.0,  0.0,  0.0],
+        [0.0, -1.0,  0.0],
+        [0.0,  0.0, -1.0]
+    ])  # Camera looking straight at origin
+    T = np.array([0.0, -0.35, 2.0])  # Camera 3 units away from origin (along Z)
+    FoVx = np.radians(60)  # Horizontal FoV in radians
+    FoVy = np.radians(60)  # Vertical FoV in radians
+    gt_alpha_mask = None  # or a binary tensor of shape (1, H, W)
+
+    # Instantiate Camera
+    cam = Camera(
+        colmap_id=1,
+        R=R,
+        T=T,
+        FoVx=FoVx,
+        FoVy=FoVy,
+        image=torch.ones(3, 500, 500).to(device),
+        gt_alpha_mask=gt_alpha_mask,
+        image_name="smpl_render_cam",
+        uid=0,
+        trans=np.array([0.0, 0.0, 0.0]),  # for SMPL world
+        scale=1.0
+    )
+
+    gaussians = GaussianModel_With_Act(0)
+    gaussians.init_RT_seq({1.0: [cam]})
+    set_gaussian_model_features(gaussians, features)
+    render_pkg = render_gaussians(gaussians, [cam], bg=bg)
+    torchvision.utils.save_image(render_pkg['render'], save_path)
+
+
+def render_smpl_gaussians_gif(features, save_path="smpl_360.gif"):
+    from hugs.datasets.utils import get_rotating_camera
+    camera_params = get_rotating_camera(
+        dist=5.0, img_size=512, 
+        nframes=36, device='cuda',
+        angle_limit=2*torch.pi,
+    )
+
+    frames = []
+
+    for cam_param in camera_params:
+        # === Extract R and T from cam_ext ===
+        cam_ext = cam_param['cam_ext'].T.cpu()  # (4x4 matrix)
+        R = cam_ext[:3, :3].numpy()           # 3x3 rotation matrix
+        T = cam_ext[:3, 3].numpy()            # 3D translation vector
+
+        T[1] = -0.35
+
+        # === Other parameters ===
+        FoVx = cam_param['fovx']
+        FoVy = cam_param['fovy']
+        image = torch.ones(3, cam_param['image_height'], cam_param['image_width'])  # dummy image
+        gt_alpha_mask = None  # or you can load real mask
+        image_name = "from_cam_param.png"
+        uid = 0
+        colmap_id = 0
+
+        # === Instantiate Camera ===
+        cam = Camera(
+            colmap_id=colmap_id,
+            R=R,
+            T=T,
+            FoVx=FoVx,
+            FoVy=FoVy,
+            image=image,
+            gt_alpha_mask=gt_alpha_mask,
+            image_name=image_name,
+            uid=uid
+        )
+
+        gaussians = GaussianModel_With_Act(0)
+        gaussians.init_RT_seq({1.0: [cam]})
+        set_gaussian_model_features(gaussians, features)
+        render_pkg = render_gaussians(gaussians, [cam], bg="white")
+        # Convert rendered tensor to PIL Image
+        image_tensor = render_pkg['render'].detach().cpu().clamp(0, 1)
+        image_pil = torchvision.transforms.functional.to_pil_image(image_tensor)
+        frames.append(image_pil)
+
+    frames[0].save(
+        save_path,
+        save_all=True,
+        append_images=frames[1:],
+        duration=100,  # milliseconds per frame
+        loop=0         # loop forever
+    )
+
+
+
+
 def get_deformed_gs_xyz(
     xyz,
     xyz_offset,
@@ -1333,3 +1504,56 @@ def match_smpl_to_gaussians_fast_one2one(
             used_g.add(g)
 
     return matched
+
+
+def interpolate_laplacian(
+        verts: torch.Tensor,
+        faces: torch.LongTensor,
+        offsets: torch.Tensor,
+        mask: torch.BoolTensor,
+        num_iters: int = 200,
+        lam: float = 0.5,
+    ) -> torch.Tensor:
+        """
+        Harmonic extension via Jacobi-style Laplacian smoothing.
+        Repeatedly replace each unknown vertex's value with the average of its neighbors,
+        then re-clamp the known rim offsets each iteration.
+
+        Args:
+            verts:    (V,3) vertex positions (unused here but often kept for reference)
+            faces:    (F,3) triangle indices
+            offsets:  (V,)   initial offset values (zeros off-rim)
+            mask:     (V,)   True for known rim vertices
+            num_iters:     number of smoothing passes
+            lam:           relaxation factor (0 < lam <= 1)
+
+        Returns:
+            out:      (V,)   completed offset field
+        """
+        # build adjacency list
+        V = verts.size(0)
+        # 1) Build sparse adjacency A (unweighted 0/1 edges)
+        #    each undirected edge i–j becomes two entries (i,j) & (j,i)
+        idx_i = faces.view(-1)                        # (3F,)
+        idx_j = faces[:, [1,2,0]].reshape(-1)          # rotating for (i,j),(j,k),(k,i)
+        row = torch.cat([idx_i, idx_j], dim=0)
+        col = torch.cat([idx_j, idx_i], dim=0)
+        A = torch.sparse_coo_tensor(torch.stack([row, col]), torch.ones(row.shape[0], device=offsets.device), (V, V)).coalesce()
+        
+        # 2) Degree vector and its reciprocal
+        deg = torch.sparse.sum(A, dim=1).to_dense()    # (V,)
+        inv_deg = 1.0 / deg.clamp(min=1e-12)           # avoid div0
+
+        # 3) Pre‐clamp the boundary
+        u = offsets.clone()
+        boundary_vals = offsets[mask]
+        
+        # 4) Iterative Jacobi
+        for _ in range(num_iters):
+            # sparse‐dense matmul: sums neighbor values for each vertex
+            nbr_sum = torch.sparse.mm(A, u.unsqueeze(1)).squeeze(1)  # (V,)
+            u_new = (1 - lam) * u + lam * (inv_deg * nbr_sum)
+            # re‐clamp boundary
+            u_new[mask] = boundary_vals
+            u = u_new
+        return u

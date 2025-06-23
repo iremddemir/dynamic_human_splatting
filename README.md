@@ -68,7 +68,7 @@ The main components of the pipeline are as follows:
 
 - **Merging Humans**:
   This stage merges individual canonical humans to a single one.
-  - Run: `python vggt/merge_humans_learned.py` for learned merging or `python vggt/merge_humans.py` for simple merging.
+  - Run: `python vggt/merge_humans.py`, which will create merging results for all considered merging techniques including the learned one.
 
 
 *Notes*
